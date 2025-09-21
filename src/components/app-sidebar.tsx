@@ -17,6 +17,8 @@ import {
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useDispatch } from "react-redux";
+import { logout } from "@/store/slices/authSlice";
 
 const items = [
   {
@@ -50,6 +52,8 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -110,7 +114,7 @@ export function AppSidebar() {
                         transition-all duration-200 cursor-pointer
                       "
                 onClick={() => {
-                  localStorage.removeItem("authToken");
+                  dispatch(logout());
                   router.push("/");
                 }}
               >

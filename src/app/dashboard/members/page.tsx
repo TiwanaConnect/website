@@ -40,7 +40,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -71,7 +70,7 @@ export default function MembersPage() {
   const [editingMember, setEditingMember] = useState<Member | null>(null);
   const [open, setOpen] = useState(false);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting] = useState<SortingState>([]);
 
   // ---------------- Columns ----------------
   const columns: ColumnDef<Member>[] = [
@@ -196,7 +195,7 @@ export default function MembersPage() {
                     <CommandItem
                       key={name}
                       value={name}
-                      onSelect={(value: any) => {
+                      onSelect={(value: unknown) => {
                         table.getColumn("fatherName")?.setFilterValue(value);
                         setOpen(false);
                       }}

@@ -1,49 +1,33 @@
-import AbstractApi from "@/api/AbstractApi";
+import { LoginRequest, LoginResponse } from "@/common/interface";
 
-interface LoginResponse {
-  isOk: boolean;
-  token?: string;
-}
-
-export class UserService extends AbstractApi {
-  private tempUser = [
-    {
-      id: "1",
-      email: "user@gmail.com",
-      password: "123456",
-      role: "user",
-    },
-    {
-      id: "2",
-      email: "admin@gmail.com",
-      password: "123456",
-      role: "admin",
-    },
-  ];
-
-  login(
-    email: string,
-    password: string,
-    role: "admin" | "user"
-  ): LoginResponse {
+const tempUser = [
+  {
+    id: "1",
+    name: "User",
+    email: "user@gmail.com",
+    password: "123456",
+    role: "user",
+  },
+  {
+    id: "2",
+    name: "Admin",
+    email: "admin@gmail.com",
+    password: "123456",
+    role: "admin",
+  },
+];
+export class UserService {
+  static login(body: LoginRequest): LoginResponse {
+    const { email, password, role } = body;
     // return this.post<{ token: string }>("/auth/login", { email, password });
-    const user = this.tempUser.find(
+    const user = tempUser.find(
       (u) => u.email === email && u.password === password && u.role === role
     );
     if (!user) {
-      return {
-        isOk: false,
-      };
+      return null;
     }
     const token = role === "admin" ? "AdminToken" : "UserToken";
-    return { isOk: true, token };
-  }
-
-  getProfile() {
-    return this.get<{ id: string; email: string; name: string }>("/users/me");
-  }
-
-  getAll() {
-    return this.get<{ id: string; email: string; name: string }>("/users/me");
+    const data = { name: user.name, email: user.email, id: user.id, role };
+    return { user: data, token };
   }
 }
